@@ -6,11 +6,13 @@ using UnityEngine.Tilemaps;
 /**
  * A graph that represents a tilemap, using only the allowed tiles.
  */
-public class TilemapGraph: IGraph<Vector3Int> {
+public class TilemapGraph : IGraph<Vector3Int>
+{
     private Tilemap tilemap;
     private TileBase[] allowedTiles;
 
-    public TilemapGraph(Tilemap tilemap, TileBase[] allowedTiles) {
+    public TilemapGraph(Tilemap tilemap, TileBase[] allowedTiles)
+    {
         this.tilemap = tilemap;
         this.allowedTiles = allowedTiles;
     }
@@ -22,12 +24,24 @@ public class TilemapGraph: IGraph<Vector3Int> {
             new Vector3Int(0, 1, 0),
     };
 
-    public IEnumerable<Vector3Int> Neighbors(Vector3Int node) {
-        foreach (var direction in directions) {
-            Vector3Int neighborPos = node + direction;
+    public IEnumerable<Vector3Int> Neighbors(Vector3Int nodePosition)
+    {
+        foreach (var direction in directions)
+        {
+            Vector3Int neighborPos = nodePosition + direction;
             TileBase neighborTile = tilemap.GetTile(neighborPos);
             if (allowedTiles.Contains(neighborTile))
                 yield return neighborPos;
         }
+    }
+
+    public float getDistance(Vector3Int nodePos, Vector3Int endPos)
+    {
+        return Vector3.Distance(nodePos, endPos);
+    }
+
+    public float getWeight(Vector3Int nextNode)
+    {
+        return 1f;
     }
 }
