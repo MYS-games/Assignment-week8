@@ -20,7 +20,6 @@ public class Astar
 
         Dictionary<NodeType, NodeType> parent = new Dictionary<NodeType, NodeType>();
 
-        //Dictionary<NodeType, float> nodeWeights = new Dictionary<NodeType, float>();
         PriorityQueue<NodeType> priorityQueue = new PriorityQueue<NodeType>();
         HashSet<NodeType> closed = new HashSet<NodeType>();
 
@@ -31,9 +30,7 @@ public class Astar
 
 
        for(int i = 0; i < maxiterations; i++) {
-            Debug.Log(priorityQueue);
 
-            Debug.Log(i);
             if(priorityQueue.Size == 0)
             {
                 break;

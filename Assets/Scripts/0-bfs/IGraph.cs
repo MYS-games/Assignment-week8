@@ -8,10 +8,10 @@
  * @author Erel Segal-Halevi
  * @since 2020-12
  */
-public interface IGraph<N> {
-    IEnumerable<N> Neighbors(N position);
+public interface IGraph<T> {
+    IEnumerable<T> Neighbors(T position);
 
-    float getDistance(N myPos, N endPos);
+    float getDistance(T myPos, T endPos);
 
-    float getWeight(N nextNode); 
+    float getWeight(T nextNode);
 }
