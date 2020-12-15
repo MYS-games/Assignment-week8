@@ -53,15 +53,36 @@ public class TargetMover: MonoBehaviour {
         }
     }
 
-    private void MakeOneStepTowardsTheTarget() {
+    /* private void MakeOneStepTowardsTheTarget()
+     {
+         Vector3Int startNode = tilemap.WorldToCell(transform.position);
+         Vector3Int endNode = targetInGrid;
+         List<Vector3Int> shortestPath = BFS.GetPath(tilemapGraph, startNode, endNode, maxIterations);
+         Debug.Log("shortestPath = " + string.Join(" , ", shortestPath));
+         if (shortestPath.Count >= 2)
+         {
+             Vector3Int nextNode = shortestPath[1];
+             transform.position = tilemap.GetCellCenterWorld(nextNode);
+         }
+         else
+         {
+             atTarget = true;
+         }
+     }*/
+
+    private void MakeOneStepTowardsTheTarget()
+    {
         Vector3Int startNode = tilemap.WorldToCell(transform.position);
         Vector3Int endNode = targetInGrid;
-        List<Vector3Int> shortestPath = BFS.GetPath(tilemapGraph, startNode, endNode, maxIterations);
-        Debug.Log("shortestPath = " + string.Join(" , ",shortestPath));
-        if (shortestPath.Count >= 2) {
+        List<Vector3Int> shortestPath = Astar.GetPath(tilemapGraph, startNode, endNode, maxIterations);
+        Debug.Log("shortestPath = " + string.Join(" , ", shortestPath));
+        if (shortestPath.Count >= 2)
+        {
             Vector3Int nextNode = shortestPath[1];
             transform.position = tilemap.GetCellCenterWorld(nextNode);
-        } else {
+        }
+        else
+        {
             atTarget = true;
         }
     }

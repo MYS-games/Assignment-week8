@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 /**
  * A generic implementation of the BFS algorithm.
@@ -6,7 +7,7 @@
  * @since 2020-02
  */
 public class BFS {
-
+    
     public static void FindPath<NodeType>(
             IGraph<NodeType> graph, 
             NodeType startNode, NodeType endNode, 
@@ -30,6 +31,7 @@ public class BFS {
                         outputPath.Add(searchFocus);
                     }
                     outputPath.Reverse();
+                    Debug.Log(outputPath);
                     break;
                 } else {
                     // We did not found the target yet -- develop new nodes.
