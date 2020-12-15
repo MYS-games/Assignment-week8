@@ -18,101 +18,70 @@ public class Astar
         int maxiterations = 1000)
     {
 
-        //Dictionary<NodeType, List<NodeType>> possiblePaths = new Dictionary<NodeType, List<NodeType>>();
-        
-        Dictionary<NodeType, float> nodeWeights = new Dictionary<NodeType, float>();
-        
-        nodeWeights.Add(startNode, graph.getDistance(startNode,endNode));
-        List<NodeType> firstPath = new List<NodeType>();
-        possiblePaths.Add(startNode, firstPath);
+        Dictionary<NodeType, NodeType> parent = new Dictionary<NodeType, NodeType>();
+
+        //Dictionary<NodeType, float> nodeWeights = new Dictionary<NodeType, float>();
+        PriorityQueue<NodeType> priorityQueue = new PriorityQueue<NodeType>();
+        HashSet<NodeType> closed = new HashSet<NodeType>();
+
+        priorityQueue.Enqueue(startNode, graph.getDistance(startNode, endNode));
 
         NodeType current;
 
 
 
        for(int i = 0; i < maxiterations; i++) {
+            Debug.Log(priorityQueue);
+
             Debug.Log(i);
-            if(nodeWeights.Count == 0)
+            if(priorityQueue.Size == 0)
             {
                 break;
             }
-            float minWeight = nodeWeights.Min(node => node.Value);
-            current = nodeWeights.FirstOrDefault(node => node.Value == minWeight).Key;
-            if (i == 37)
+            else
             {
-                Debug.Log("dskfjsdlfkjsldkflskdhflsjdf");
-                foreach (NodeType j in nodeWeights.Keys)
-                {
-                    Debug.Log("key: " + j + " node weight: " + nodeWeights[j]);
-                }
+                current = priorityQueue.Peek();
 
-                foreach (NodeType j in possiblePaths.Keys)
+                if (current.Equals(endNode))
                 {
-                    List<NodeType> temp = possiblePaths[j];
-                    foreach (NodeType k in temp)
+                    outputPath.Add(endNode);
+                    while (parent.ContainsKey(current))
                     {
-                        Debug.Log("key: " + j + " node path: " + k);
+                        current = parent[current];
+                        outputPath.Add(current);
                     }
-                    Debug.Log("size: " + temp.Count);
-
-                }
-            }
-            Debug.Log(current);
-            foreach (var neighbor in graph.Neighbors(current))
-            {
-                List<NodeType> nList = possiblePaths[current];
-                if (nList.Contains(neighbor))
-                {
-                    Debug.Log(current + " ------ " + neighbor);
-                    continue;
-                }
-                if(graph.getDistance(current,neighbor) > 1)
-                {
-                    continue;
-                }
-                float nextWeight = graph.getWeight(neighbor) + nodeWeights[current] + graph.getDistance(neighbor, endNode);
-                if (!nodeWeights.ContainsKey(neighbor))
-                {
-                    nodeWeights.Add(neighbor, nextWeight);
-
-                    List<NodeType> pathList = possiblePaths[current];
-                    pathList.Add(current);
-                    if (!possiblePaths.ContainsKey(neighbor))
-                    {
-                        possiblePaths.Add(neighbor, pathList);
-
-                    }
+                    outputPath.Reverse();
+                    break;
                 }
                 else
                 {
-                    if (nextWeight < nodeWeights[neighbor])
+                    foreach (var neighbor in graph.Neighbors(current))
                     {
-                        //Debug.Log("lala" + neighbor);
+                        float nextWeight = graph.getWeight(neighbor) + priorityQueue.getWeight(current) + graph.getDistance(neighbor, endNode);
 
-                        nodeWeights[neighbor] = nextWeight;
-
-                        List<NodeType> pathList = possiblePaths[current];
-                        pathList.Add(current);
-                        possiblePaths[neighbor] = pathList;
+                        if (closed.Contains(neighbor))
+                        {
+                            if (priorityQueue.getWeight(neighbor) > nextWeight)
+                            {
+                                priorityQueue.setWeight(neighbor, nextWeight);
+                                parent[neighbor] = current;
+                                continue;
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                        }
+                        priorityQueue.Enqueue(neighbor, nextWeight);
+                        parent[neighbor] = current;
                     }
+                    closed.Add(current);
+                    priorityQueue.Dequeue();
                 }
             }
-             nodeWeights.Remove(current);
-            if (possiblePaths.ContainsKey(endNode))
-            {
-                outputPath = possiblePaths[endNode];
-                break;
-            }
+
+           
         }
-
-        // construct path, if end was not closed return null
-        if (!possiblePaths.ContainsKey(endNode))
-        {
-            Debug.Log("can't find shortest path");
-            return;
-        }
-
-
     }
 
     public static List<NodeType> GetPath<NodeType>(IGraph<NodeType> graph, NodeType startNode, NodeType endNode, int maxiterations = 1000)

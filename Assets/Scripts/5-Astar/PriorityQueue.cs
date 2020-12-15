@@ -4,37 +4,92 @@ using System.Collections.Generic;
 
 public class PriorityQueue<T>
 {
-    private class PriorityQueueItem : IComparable<PriorityQueueItem>
+    // The items and priorities.
+    List<T> Values = new List<T>();
+    List<float> Priorities = new List<float>();
+
+    // Return the number of items in the queue.
+    public int Size
     {
-        private T item;
-        private int priority;
-
-        public PriorityQueueItem(T item, int priority)
+        get
         {
-            this.item = item;
-            this.priority = priority;
+            return Values.Count;
         }
-
-        public T Item { get; internal set; }
-
-        public int CompareTo(PriorityQueueItem other)
-        {
-            return priority.CompareTo(other.priority);
-        }
-
-        // obvious constructor, CompareTo implementation and Item accessor
     }
 
-    // the existing PQ implementation where the item *does* need to be IComparable
-    private readonly PriorityQueue<PriorityQueueItem> _inner = new PriorityQueue<PriorityQueueItem>();
-
-    public void Enqueue(T item, int priority)
+    // Add an item to the queue.
+    public void Enqueue(T new_value, float new_priority)
     {
-        _inner.Enqueue(new PriorityQueueItem(item, priority));
+        Values.Add(new_value);
+        Priorities.Add(new_priority);
     }
 
-    public T Dequeue()
+    // Remove the item with the largest priority from the queue.
+    public void Dequeue()
     {
-        return _inner.Dequeue().Item;
+        // Find the hightest priority.
+        int best_index = 0;
+        float best_priority = Priorities[0];
+        for (int i = 1; i < Priorities.Count; i++)
+        {
+            if (best_priority > Priorities[i])
+            {
+                best_priority = Priorities[i];
+                best_index = i;
+            }
+        }
+        // Remove the item from the lists.
+        Values.RemoveAt(best_index);
+        Priorities.RemoveAt(best_index);
+    }
+
+    public T Peek()
+    {
+        int best_index = 0;
+        float best_priority = Priorities[0];
+        for (int i = 1; i < Priorities.Count; i++)
+        {
+            if (best_priority > Priorities[i])
+            {
+                best_priority = Priorities[i];
+                best_index = i;
+            }
+        }
+        return Values[best_index];
+    }
+
+    public bool Contains(T value)
+    {
+        for (int i = 0; i < Values.Count; i++)
+        {
+            if (value.Equals(Values[i]))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public float getWeight(T value)
+    {
+        for (int i = 0; i < Values.Count; i++)
+        {
+            if (value.Equals(Values[i]))
+            {
+                return Priorities[i];
+            }
+        }
+        return -1;
+    }
+
+    public void setWeight(T value, float new_value)
+    {
+        for (int i = 0; i < Values.Count; i++)
+        {
+            if (value.Equals(Values[i]))
+            {
+                Priorities[i] = new_value;
+            }
+        }
     }
 }
