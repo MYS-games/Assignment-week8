@@ -2,6 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/*
+ * generic priority queue
+ * get the order by a float parameter(priority)
+ */
 public class PriorityQueue<T>
 {
     // The items and priorities.
@@ -32,6 +36,7 @@ public class PriorityQueue<T>
         float best_priority = Priorities[0];
         for (int i = 1; i < Priorities.Count; i++)
         {
+            //checks if we have a lower weight (not higher)
             if (best_priority > Priorities[i])
             {
                 best_priority = Priorities[i];
@@ -45,16 +50,19 @@ public class PriorityQueue<T>
 
     public T Peek()
     {
+        // Find the hightest priority.
         int best_index = 0;
         float best_priority = Priorities[0];
         for (int i = 1; i < Priorities.Count; i++)
         {
+            //checks if we have a lower weight (not higher)
             if (best_priority > Priorities[i])
             {
                 best_priority = Priorities[i];
                 best_index = i;
             }
         }
+        //returns the T with best priority 
         return Values[best_index];
     }
 

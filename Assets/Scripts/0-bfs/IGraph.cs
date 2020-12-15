@@ -9,9 +9,9 @@
  * @since 2020-12
  */
 public interface IGraph<T> {
-    IEnumerable<T> Neighbors(T position);
+    IEnumerable<T> Neighbors(T position);   //get all neighbors
 
-    float getDistance(T myPos, T endPos);
+    float getDistance(T myPos, T endPos);   //get heuristic distance from node to other node
 
-    float getWeight(T nextNode);
+    float getWeight(T nextNode);            //get the weight of a node
 }

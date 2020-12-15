@@ -46,6 +46,7 @@ public class TilemapGraph : IGraph<Vector3Int>
         return Vector3.Distance(nodePos, endPos);
     }
 
+    //we choose the tile weight to be the index of the tile in the allpwedYiles array
     public float getWeight(Vector3Int nextNode)
     {
         TileBase nextTile = TileOnPosition(nextNode);
