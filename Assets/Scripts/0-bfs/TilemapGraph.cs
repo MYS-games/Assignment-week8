@@ -24,6 +24,12 @@ public class TilemapGraph : IGraph<Vector3Int>
             new Vector3Int(0, 1, 0),
     };
 
+    private TileBase TileOnPosition(Vector3Int worldPosition)
+    {
+        Vector3Int cellPosition = tilemap.WorldToCell(worldPosition);
+        return tilemap.GetTile(cellPosition);
+    }
+
     public IEnumerable<Vector3Int> Neighbors(Vector3Int nodePosition)
     {
         foreach (var direction in directions)
@@ -42,6 +48,17 @@ public class TilemapGraph : IGraph<Vector3Int>
 
     public float getWeight(Vector3Int nextNode)
     {
+        TileBase nextTile = TileOnPosition(nextNode);
+        float ind = 0;
+        foreach (TileBase tile in allowedTiles)
+        {
+            if (nextTile.Equals(tile))
+            {
+                return ind;
+            }
+            ind++;
+        }
+        
         return 1f;
     }
 }
