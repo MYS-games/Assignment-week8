@@ -1,20 +1,24 @@
-# Unity week 5: Two-dimensional scene-building and path-finding
+# Assignment-8 A star Algorithm
 
-A project with step-by-step scenes illustrating how to construct a 2D scene using tilemaps,
-and how to do path-finding using the BFS algorithm.
+* Shir Avraham
+* Yuval Zarbiv
+* Matti Stern
+
+**On this part we implemented the algorithm A star.**
 
 
-## Credits
+## Section 2 - A star Algorithm
 
-Graphics:
-* [Ultima 4 Graphics](https://github.com/jahshuwaa/u4graphics) by Joshua Steele.
+We create 2 generic scripts :
+[Astar](https://github.com/MYS-games/Assignment-week8/blob/master/Assets/Scripts/3-Astar/Astar.cs) And
+[PriorityQueue](https://github.com/MYS-games/Assignment-week8/blob/master/Assets/Scripts/3-Astar/PriorityQueue.cs)
 
-Online course:
-* [Unity 2D](https://www.udemy.com/course/unitycourse/learn/lecture/10246496), a Udemy course by Gamedev.tv.
-* [Unity RPG](https://www.gamedev.tv/p/unity-rpg/?product_id=1503859&coupon_code=JOINUS).
+we also expend the Igraph interface : [IGraph](https://github.com/MYS-games/Assignment-week8/blob/master/Assets/Scripts/0-graph/IGraph.cs) and implements it on [TilemapGraph](https://github.com/MYS-games/Assignment-week8/blob/master/Assets/Scripts/0-graph/TilemapGraph.cs).
 
-Procedural generation:
-* [Habrador - Unity Programming Patterns](https://github.com/Habrador/Unity-Programming-Patterns#7-double-buffer)
+The algorithm finds best path from start node to end node, it considerate the tiles weights on every step.
+The priority Queue we create works different from the known priority queue, the best priority is the lowest.
+We added distance and weight functions:
 
-Programming:
-* Erel Segal-Halevi
+* the distance function returns the Heuristics distance between 2 given nodes.
+* the get weight function returns the weight of the next neighbor tile.
+
